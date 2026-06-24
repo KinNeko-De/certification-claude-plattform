@@ -1,6 +1,5 @@
 import { query, SDKUserMessage } from "@anthropic-ai/claude-agent-sdk";
 
-
 async function* messages(): AsyncGenerator<SDKUserMessage> {
   yield {
     type: "user",
