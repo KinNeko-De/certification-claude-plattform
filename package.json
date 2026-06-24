@@ -1,0 +1,18 @@
+{
+  "name": "certification-claude-plattform",
+  "version": "0.1.0",
+  "description": "Personal working copy for the Anthropic Claude Platform 101 course, using the Claude Agent SDK.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "00": "tsx 00-hello-claude.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
