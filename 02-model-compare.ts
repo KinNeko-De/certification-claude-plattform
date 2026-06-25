@@ -1,6 +1,5 @@
 import { query, SDKMessage, SDKUserMessage } from "@anthropic-ai/claude-agent-sdk";
 
-type AssistantContent = { type: string; text: string };
 
 const models = [
     "claude-haiku-4-5",
@@ -44,8 +43,8 @@ for (const model of models) {
 function getOutput(message: SDKMessage): string | undefined {
     if (message.type === "assistant") {
         return message.message.content
-            .filter((b: AssistantContent) => b.type === "text")
-            .map((b: AssistantContent) => b.text)
+            .filter((b): b is Extract<typeof b, { type: "text" }> => b.type === "text")
+            .map((b) => b.text)
             .join("");
     }
 }
