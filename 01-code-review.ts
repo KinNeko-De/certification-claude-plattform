@@ -19,20 +19,20 @@ async function* messages(): AsyncGenerator<SDKUserMessage> {
 }
 
 const response = query({
-  prompt:  messages(),
+  prompt: messages(),
   options: {
     model: "claude-haiku-4-5",
-    systemPrompt: "You are a terse senior code reviewer. Give feedback in one paragraph.",
-    maxThinkingTokens: 1024 // original maxToken
+    systemPrompt: "You are a terse senior code reviewer. Give feedback in one paragraph."
   },
 });
 
 for await (const message of response) {
-    if (message.type === "assistant") { // exclude system prompt
-        for (const block of message.message.content) {
-            if (block.type === "text") { // exclude thinking
-                console.log(block.text);
-            }
-        }
+  if (message.type === "assistant") { // exclude system prompt
+    for (const block of message.message.content) {
+
+      if (block.type === "text") { // exclude thinking
+        console.log(block.text);
+      }
     }
+  }
 }
