@@ -28,18 +28,12 @@ for (const model of models) {
         options: { model },
     });
 
-    let text = "";
-    let stats = "";
-    for await (const message of response) {
-        const output = getOutput(model, message);
-        if (output != "") {
-            text = output;
-        }
+    let text: string | undefined;
+    let stats: string | undefined;
 
-        const outputStats = getStats(model, message);
-        if (outputStats != "") {
-            stats = outputStats;
-        }
+    for await (const message of response) {
+        text = getOutput(message) ?? text;
+        stats = getStats(model, message) ?? stats;
     }
 
 
@@ -47,21 +41,17 @@ for (const model of models) {
     console.log(text);
 }
 
-function getOutput(model: string, message: SDKMessage) {
+function getOutput(message: SDKMessage): string | undefined {
     if (message.type === "assistant") {
         return message.message.content
             .filter((b: AssistantContent) => b.type === "text")
             .map((b: AssistantContent) => b.text)
             .join("");
     }
-
-    return "";
 }
 
-function getStats(model: string, message: SDKMessage) {
+function getStats(model: string, message: SDKMessage): string | undefined {
     if (message.type === "result") {
         return `\n[${model}] ${message.duration_api_ms}ms in=${message.usage.input_tokens} out=${message.usage.output_tokens}`;
     }
-
-    return "";
 }
