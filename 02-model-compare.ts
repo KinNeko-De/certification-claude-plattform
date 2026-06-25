@@ -1,5 +1,4 @@
-import { query, SDKMessage, SDKUserMessage } from "@anthropic-ai/claude-agent-sdk";
-
+import { query, SDKUserMessage } from "@anthropic-ai/claude-agent-sdk";
 
 const models = [
     "claude-haiku-4-5",
@@ -27,30 +26,10 @@ for (const model of models) {
         options: { model },
     });
 
-    let text: string | undefined;
-    let stats: string | undefined;
-
     for await (const message of response) {
-        text = getOutput(message) ?? text;
-        stats = getStats(model, message) ?? stats;
-    }
-
-
-    console.log(stats)
-    console.log(text);
-}
-
-function getOutput(message: SDKMessage): string | undefined {
-    if (message.type === "assistant") {
-        return message.message.content
-            .filter((b): b is Extract<typeof b, { type: "text" }> => b.type === "text")
-            .map((b) => b.text)
-            .join("");
-    }
-}
-
-function getStats(model: string, message: SDKMessage): string | undefined {
-    if (message.type === "result") {
-        return `\n[${model}] ${message.duration_api_ms}ms in=${message.usage.input_tokens} out=${message.usage.output_tokens}`;
+        if (message.type === "result" && message.subtype === "success") {
+            console.log(`\n[${model}] ${message.duration_api_ms}ms in=${message.usage.input_tokens} out=${message.usage.output_tokens}`);
+            console.log(message.result);
+        }
     }
 }
