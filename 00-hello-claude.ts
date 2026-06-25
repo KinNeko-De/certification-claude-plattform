@@ -16,7 +16,7 @@ const response = query({
   prompt:  messages(),
   options: {
     model: "claude-haiku-4-5",
-    maxThinkingTokens: 1024 // original maxToken
+    // original maxToken not there, thinkingToken is deprecated
   },
 });
 
