@@ -1,0 +1,1 @@
+code example not possible with agent sdk..see 03 - agent - loop.ts for a mcp server definition
